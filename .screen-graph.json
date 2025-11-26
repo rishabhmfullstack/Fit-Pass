@@ -1,0 +1,19 @@
+{
+  "nodes": [
+    {
+      "id": "src/routes/Payment/screens/Payment.tsx",
+      "label": "Payment",
+      "routes": [
+        "/cred-special-plan-payment"
+      ]
+    },
+    {
+      "id": "src/routes/PaymentGateway/screens/PaymentGateway.tsx",
+      "label": "PaymentGateway",
+      "routes": [
+        "/payment-gateway"
+      ]
+    }
+  ],
+  "edges": []
+}
