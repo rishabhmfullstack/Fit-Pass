@@ -1,5 +1,5 @@
 import { ChevronLeftIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Separator } from "../../../components/ui/separator";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +11,7 @@ const timelineData = [
   {
     day: "Today",
     description:
-      "Start your fitness journey with your 7-day free trial on FITPASS",
+      "Start your fitness journey with your 30-day free trial on FITPASS",
   },
   {
     day: "Day 29",
@@ -20,7 +20,7 @@ const timelineData = [
   {
     day: "Day 30",
     description:
-      "You will be charged ₹3,999 on 17 Nov, 2025 for 3 months. Cancel atleast one day before.",
+      "You will be charged ₹3,999 for 3 months. Cancel at least one day before.",
   },
 ];
 
@@ -28,8 +28,8 @@ export const CredSpecialPlan = (): JSX.Element => {
   const navigate = useNavigate();
   const [lat, setLat] = useState<Number | null>(null);
   const [lng, setLng] = useState<Number | null>(null);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   // const merchant_transaction_number = "TXN-191919193174-1763126888";
   
   // Function to calculate date 30 days from today
@@ -150,11 +150,12 @@ export const CredSpecialPlan = (): JSX.Element => {
       // navigate("/cred-special-plan-v3");
     } catch (error: any) {
       console.error("Error:", error);
-      if (error.response?.data?.meta?.description) {
-        setError(error.response.data.meta.description);
-      } else {
-        setError("Something went wrong. Please try again.");
-      }
+      const description = error.response?.data?.meta?.description;
+      setToastMessage(
+        description?.trim()
+          ? description
+          : "Something went wrong. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -163,14 +164,27 @@ export const CredSpecialPlan = (): JSX.Element => {
   useEffect(() => {
     getLocation();
   }, []);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => setToastMessage(null), 5200);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
   
   return (
     <div
-      className="bg-white w-full min-w-[360px] min-h-[800px] flex flex-col relative"
+      className="bg-white overflow-hidden w-full max-w-[420px] min-w-[320px] min-h-[800px] flex flex-col relative mx-auto"
       data-model-id="1:15616"
     >
+      {toastMessage && (
+        <div className="pointer-events-none fixed top-4 left-1/2 z-[50] w-[min(90%,360px)] -translate-x-1/2 px-4">
+          <div className="rounded-[12px] bg-[#fef3c7]/90 border border-[#facc15] px-4 py-3 shadow-lg shadow-[#facc1590] text-[13px] font-semibold text-[#78350f]">
+            {toastMessage}
+          </div>
+        </div>
+      )}
       
-      <header className="z-[1] w-[360px] h-14 relative mt-6 bg-white opacity-0 animate-fade-in [--animation-delay:0ms]">
+      <header className="z-[1] w-[min(90%,360px)] h-14 relative mt-6 bg-white opacity-0 animate-fade-in [--animation-delay:0ms] mx-auto">
         <h1 className="absolute top-[calc(50.00%_-_10px)] left-[calc(50.00%_-_118px)] w-[237px] [font-family:'Figtree',Helvetica] font-semibold text-[#0a1f34] text-base text-center tracking-[0.20px] leading-5">
           Your plan
         </h1>
@@ -204,7 +218,7 @@ export const CredSpecialPlan = (): JSX.Element => {
       </h1>
     </div>
 
-      <div className="flex z-[2] ml-px h-3 w-[321px] self-center absolute mt-0 top-[325px] items-center gap-2 opacity-0 animate-fade-in [--animation-delay:400ms]">
+      <div className="flex z-[2] ml-px h-3 w-[min(90%,321px)] self-center absolute top-[325px] left-[5%] -translate-x-1/2 items-center gap-2 opacity-0 animate-fade-in [--animation-delay:400ms]">
         <Separator className="flex-1 bg-primary-coloursc4" />
 
         <div className="relative opacity-60 [font-family:'Figtree',Helvetica] font-bold text-primary-coloursc1 text-[10px] tracking-[0.60px] leading-[normal] whitespace-nowrap">
@@ -214,70 +228,52 @@ export const CredSpecialPlan = (): JSX.Element => {
         <Separator className="flex-1 bg-primary-coloursc4" />
       </div>
 
-      <section className="absolute top-[354px] left-5 w-[311px] h-[244px] z-[3] opacity-0 animate-fade-in [--animation-delay:600ms]">
+      <section className="absolute top-[354px] left-[5%] -translate-x-1/2 w-[min(90%,311px)] min-h-[260px] z-[3] opacity-0 animate-fade-in [--animation-delay:600ms]">
         <img
-          className="absolute top-0 left-0 w-6 h-[244px]"
+          className="absolute top-0 left-0 h-full w-6"
           alt="Timeline"
           src={TimeLine}
         />
+        <div className="relative ml-9 flex flex-col gap-5 pr-3 pt-4 pb-4">
+          {timelineData.map((item, index) => (
+            <article key={index} className="flex flex-col gap-1">
+              <h3 className="[font-family:'Figtree',Helvetica] font-semibold text-primary-coloursc1 text-base tracking-[0] leading-[normal]">
+                {item.day}
+              </h3>
 
-        {timelineData.map((item, index) => (
-          <article
-            key={index}
-            className={`absolute ${
-              index === 0 ? "top-1" : index === 1 ? "top-[84px]" : "top-[164px]"
-            } left-[47px] w-[268px] ${
-              index === 2 ? "h-20" : "h-[60px]"
-            } flex flex-col gap-px`}
-          >
-            <h3
-              className={`${
-                index === 0
-                  ? "-ml-56 w-11"
-                  : index === 1
-                    ? "ml-[-226px] w-[42px]"
-                    : "ml-[-227px] w-[41px]"
-              } h-[19px] self-center [font-family:'Figtree',Helvetica] font-semibold text-primary-coloursc1 text-base tracking-[0] leading-[normal] whitespace-nowrap`}
-            >
-              {item.day}
-            </h3>
-
-            <p
-              className={`self-end mr-1 w-[264px] ${
-                index === 2 ? "h-[60px]" : "h-10"
-              } opacity-[0.64] [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc1 text-sm tracking-[0] ${
-                index === 2 ? "leading-[14px]" : "leading-5"
-              }`}
-            >
               {index === 0 ? (
-                <>
-                  <span className="[font-family:'Figtree',Helvetica] font-normal text-[#0a1f34] text-sm tracking-[0] leading-5">
+                <p className="self-start opacity-[0.64] [font-family:'Figtree',Helvetica] font-normal text-[#0a1f34] text-sm tracking-[0] leading-5">
+                  <span>
                     Start your fitness journey with your 30-day free trial on{" "}
                   </span>
-                  <span className="[font-family:'Figtree',Helvetica] font-normal text-[#0a1f34] text-sm tracking-[0] leading-5">
-                    FITPASS
-                  </span>
-                </>
+                  <span>FITPASS</span>
+                </p>
               ) : index === 2 ? (
-                <>
+                <p className="self-start opacity-[0.64] [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc1 text-sm tracking-[0] leading-[16px]">
                   <span className="leading-[0.1px]">You will be charged </span>
-                  <span className="leading-5">₹3,999</span>
+                  <span className="[font-family:'Figtree',Helvetica] font-semibold text-[#0a1f34] text-sm tracking-[0] leading-5">
+                    ₹3,999
+                  </span>
                   <span className="leading-[0.1px]"> on </span>
-                  <span className="leading-5">{getDateAfter30Days()}</span>
+                  <span className="[font-family:'Figtree',Helvetica] font-semibold text-[#0a1f34] text-sm tracking-[0] leading-5">
+                    {getDateAfter30Days()}
+                  </span>
                   <span className="leading-[0.1px]">
                     {" "}
-                    for 3 months. Cancel atleast one day before.
+                    for 3 months. Cancel at least one day before.
                   </span>
-                </>
+                </p>
               ) : (
-                item.description
+                <p className="self-start opacity-[0.64] [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc1 text-sm tracking-[0] leading-5">
+                  {item.description}
+                </p>
               )}
-            </p>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </section>
 
-      <div className="absolute top-[266px] left-[92px] w-[180px] z-[7] [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc2 text-[12px] text-center tracking-[0] leading-[14px]">
+      <div className="absolute top-[266px] left-1/2 z-[7] w-[min(90%,260px)] -translate-x-1/2 [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc2 text-[12px] text-center tracking-[0] leading-[14px]">
         <span className="font-medium text-[#6c7985] leading-5">
           Renews at {""}
           
@@ -289,8 +285,8 @@ export const CredSpecialPlan = (): JSX.Element => {
         after 30 days.
       </div>
 
-      <footer className="fixed left-0 bottom-0 w-[360px] h-[110px] z-[6] bg-white rounded-[16px_16px_0px_0px] overflow-hidden shadow-[0px_0px_20px_#0000001a]">
-        <Button onClick={handleSubmit} isLoading={isLoading} className="w-[328px] h-12 absolute top-[calc(50.00%_-_20px)] left-[calc(50.00%_-_164px)] bg-brand-coloursdull-red hover:bg-brand-coloursdull-red rounded-[100px] [font-family:'Figtree',Helvetica] font-bold text-primary-colourswhite text-sm text-center tracking-[0] leading-[16.8px] transition-transform hover:scale-[1.02]">
+      <footer className="fixed w-full left-1/2 bottom-0 w-[min(90%,360px)] max-w-[420px] h-[110px] z-[6] bg-white rounded-[16px_16px_0px_0px] overflow-hidden shadow-[0px_0px_20px_#0000001a] -translate-x-1/2">
+        <Button onClick={handleSubmit} isLoading={isLoading} className="absolute top-[calc(50.00%_-_20px)] left-1/2 -translate-x-1/2 w-[min(90%,328px)] h-12 bg-brand-coloursdull-red hover:bg-brand-coloursdull-red rounded-[100px] [font-family:'Figtree',Helvetica] font-bold text-primary-colourswhite text-sm text-center tracking-[0] leading-[16.8px] transition-transform hover:scale-[1.02]">
           Activate now
         </Button>
 
@@ -298,7 +294,7 @@ export const CredSpecialPlan = (): JSX.Element => {
           <div className="h-[3px] w-24 bg-[#0a1f34] rounded-sm" />
         </div>
 
-        <p className="absolute left-[calc(50.00%_-_160px)] bottom-[79px] w-80 [font-family:'Figtree',Helvetica] font-medium text-[#6c7985] text-xs text-center tracking-[0] leading-4">
+        <p className="absolute left-1/2 -translate-x-1/2 bottom-[79px] w-[min(90%,320px)] [font-family:'Figtree',Helvetica] font-medium text-[#6c7985] text-xs text-center tracking-[0] leading-4">
           ₹2 will be charged to validate payment method.
         </p>
         

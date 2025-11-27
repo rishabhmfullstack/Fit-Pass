@@ -47,7 +47,7 @@ export const CredSpecialPlan = (): JSX.Element => {
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   // const merchant_transaction_number = "TXN-191919193174-1763126888";
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
@@ -122,16 +122,16 @@ export const CredSpecialPlan = (): JSX.Element => {
 
   return (
     <div
-      className="bg-white overflow-hidden w-full min-w-[360px] h-[850px] relative"
+      className="bg-white overflow-hidden w-full max-w-[420px] min-w-[320px] min-h-[850px] relative mx-auto"
       data-model-id="1:16166"
     >
       
-      <footer className="fixed left-0 bottom-[8px] w-[360px] h-[110px] z-[6] bg-white rounded-[16px_16px_0px_0px] overflow-hidden shadow-[0px_0px_20px_#0000001a] flex flex-col items-center">
+      <footer className="fixed left-1/2 bottom-[8px] w-full max-w-[420px] -translate-x-1/2 h-[110px] z-[6] bg-white rounded-[16px_16px_0px_0px] overflow-hidden shadow-[0px_0px_20px_#0000001a] flex flex-col items-center px-3">
 
         <Button
           onClick={handleSubmit}
           isLoading={isLoading}
-          className="w-[328px] h-12 mt-3 bg-brand-coloursdull-red hover:bg-brand-coloursdull-red rounded-[100px] font-bold text-primary-colourswhite text-sm text-center transition-transform hover:scale-[1.02]"
+          className="w-full max-w-[328px] h-12 mt-3 bg-brand-coloursdull-red hover:bg-brand-coloursdull-red rounded-[100px] font-bold text-primary-colourswhite text-sm text-center transition-transform hover:scale-[1.02]"
         >
           Get Started
         </Button>
@@ -144,7 +144,7 @@ export const CredSpecialPlan = (): JSX.Element => {
       </footer>
 
 
-      <h1 className="absolute top-[355px] left-[calc(50.00%_-_160px)] w-80 h-[60px] flex flex-col items-center justify-center [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc1 text-[28px] text-center tracking-[0] leading-7 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:400ms]">
+      <h1 className="absolute top-[355px] left-[5%] -translate-x-1/2 w-[min(90%,360px)] h-[60px] flex flex-col items-center justify-center [font-family:'Figtree',Helvetica] font-normal text-primary-coloursc1 text-[28px] text-center tracking-[0] leading-7 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:400ms]">
         <div>
 
         <span className="font-bold text-[#0a1f34] leading-[30px]">
@@ -165,24 +165,24 @@ export const CredSpecialPlan = (): JSX.Element => {
         </div>
       </h1>
 
-      <p className="absolute top-[430px] left-[calc(50.00%_-_160px)] w-80 h-4 flex items-center justify-center [font-family:'Figtree',Helvetica] font-medium text-c-2 text-base text-center tracking-[0] leading-[22px] whitespace-nowrap translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:600ms]">
-        Unlock your 7-Day trial in just 3 Steps
+      <p className="absolute top-[430px] left-[5%] -translate-x-1/2 w-[min(90%,360px)] h-4 flex items-center justify-center [font-family:'Figtree',Helvetica] font-medium text-c-2 text-base text-center tracking-[0] leading-[22px] translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:600ms]">
+        Unlock your 30-Day trial in just 3 Steps
       </p>
 
-      <div className="flex justify-between rounded-md w-[323px] h-[32px] bg-[#F4F5F6] items-center gap-2 absolute top-[465px] left-[19px] translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
+      <div className="flex justify-between rounded-md w-[min(90%,360px)] h-[32px] bg-[#F4F5F6] items-center gap-2 absolute top-[465px] left-[5%] -translate-x-1/2 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
       
 
-        <p className="relative w-fit left-[17px]  [font-family:'Figtree',Helvetica] font-medium text-black text-xs tracking-[0] leading-4 whitespace-nowrap">
+        <p className="relative w-fit left-[5%] [font-family:'Figtree',Helvetica] font-medium text-black text-xs tracking-[0] leading-4 whitespace-nowrap">
           Exclusively for Cred customers only
         </p>
        <img
-          className="absolute left-[285px] w-[20px] h-[20px]"
+          className="absolute left-[90%] w-[20px] h-[20px]"
           alt="Group"
           src={Shield}
         />
       </div>
 
-      <div className="flex w-80 items-center gap-2 absolute top-[510px] left-[calc(50.00%_-_160px)] translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
+        <div className="flex w-[min(90%,360px)] items-center gap-2 absolute top-[510px] left-[5%] -translate-x-1/2 translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:800ms]">
         <div className="relative flex-1 grow h-px bg-primary-coloursc4" />
 
         <p className="relative w-fit mt-[-1.00px] opacity-60 [font-family:'Figtree',Helvetica] font-bold text-primary-coloursc1 text-[10px] tracking-[0.60px] leading-[normal] whitespace-nowrap">
@@ -193,22 +193,22 @@ export const CredSpecialPlan = (): JSX.Element => {
       </div>
 
       <img
-        className="absolute top-[27px]  w-[474px] h-[408px]"
+        className="absolute top-[27px] left-1/2 -translate-x-1/2 w-[min(100%,420px)] max-h-[408px] h-auto"
         alt="Group"
         src={Group}
       />
 
       <img
-        className="absolute top-[44px] left-[calc(50.00%_-_84px)] w-[169px] h-[26px] translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:150ms]"
+        className="absolute top-[44px] left-[27%] -translate-x-1/2 w-[min(90%,169px)] h-[26px] translate-y-[-1rem] animate-fade-in opacity-0 [--animation-delay:150ms]"
         alt="Isolation mode"
         src={Isolation_mode}
       />
 
-      <ul className="flex flex-col w-80 h-[174px] items-start gap-2.5 absolute top-[538px] left-[calc(50.00%_-_160px)]">
+      <ul className="flex flex-col w-[min(90%,360px)] h-[174px] items-start gap-2.5 absolute top-[538px] left-1/2 -translate-x-1/2">
         {planFeatures.map((feature, index) => (
           <li
             key={index}
-            className={`relative w-[322px] ${feature.height} mr-[-2.00px] translate-y-[-1rem] animate-fade-in opacity-0`}
+          className={`relative w-full ${feature.height} mr-[-2.00px] translate-y-[-1rem] animate-fade-in opacity-0`}
             style={
               {
                 "--animation-delay": `${1000 + index * 100}ms`,
@@ -222,7 +222,7 @@ export const CredSpecialPlan = (): JSX.Element => {
             />
 
             <p
-              className={`absolute ${feature.topOffset || "top-0"} left-[calc(50.00%_-_137px)] w-[296px] [font-family:'Figtree',Helvetica] font-medium text-primary-coloursc1 text-xs tracking-[0] ${
+              className={`absolute ${feature.topOffset || "top-0"} left-10 right-0 [font-family:'Figtree',Helvetica] font-medium text-primary-coloursc1 text-xs tracking-[0] ${
                 feature.height === "h-4" ? "leading-3" : "leading-[14px]"
               }`}
             >
